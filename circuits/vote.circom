@@ -4,6 +4,7 @@ include "../node_modules/circomlib/circuits/poseidon.circom";
 include "../node_modules/circomlib/circuits/bitify.circom";
 include "../node_modules/circomlib/circuits/comparators.circom";
 include "../node_modules/circomlib/circuits/mux1.circom";
+include "../node_modules/circomlib/circuits/gates.circom";
 
 template MerkleTreeChecker(levels) {
     signal input leaf;
@@ -75,6 +76,20 @@ template Vote(levels) {
     validVote.in[0] <== voteValue;
     validVote.in[1] <== 2;
     validVote.out === 1;
+
+    // Ensure nullifier and secret are non-zero to prevent weak commitments
+    component nullifierCheck = IsZero();
+    nullifierCheck.in <== nullifier;
+    nullifierCheck.out === 0; // Assert nullifier is NOT zero
+    
+    component secretCheck = IsZero();
+    secretCheck.in <== secret;
+    secretCheck.out === 0; // Assert secret is NOT zero
+
+    // Ensure proposalId is non-zero to prevent invalid proposal references
+    component proposalIdCheck = IsZero();
+    proposalIdCheck.in <== proposalId;
+    proposalIdCheck.out === 0; // Assert proposalId is NOT zero
 
     // Compute commitment and nullifier hash
     component hasher = CommitmentHasher();
