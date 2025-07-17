@@ -205,7 +205,7 @@ describe("DAO Voting System", function () {
             // Create a new proposal for each test
             const tx = await daoVoting.createProposal("Test proposal", 3600);
             await tx.wait();
-            proposalId = (await daoVoting.proposalCount()) - 1;
+            proposalId = Number((await daoVoting.proposalCount()) - 1n);
         });
         
         it("Should accept valid YES vote", async function() {
@@ -224,11 +224,20 @@ describe("DAO Voting System", function () {
             );
             
             const receipt = await tx.wait();
-            const event = receipt.events.find(e => e.event === "VoteCast");
+            const logs = receipt.logs || [];
+            const event = logs.find(log => {
+                try {
+                    const parsed = daoVoting.interface.parseLog(log);
+                    return parsed && parsed.name === "VoteCast";
+                } catch (e) {
+                    return false;
+                }
+            });
             
             expect(event).to.not.be.undefined;
-            expect(event.args.proposalId).to.equal(proposalId);
-            expect(event.args.vote).to.equal(voteValue);
+            const parsedEvent = daoVoting.interface.parseLog(event);
+            expect(parsedEvent.args.proposalId).to.equal(proposalId);
+            expect(parsedEvent.args.vote).to.equal(voteValue);
             
             // Check vote counts
             const votes = await daoVoting.getProposalVotes(proposalId);

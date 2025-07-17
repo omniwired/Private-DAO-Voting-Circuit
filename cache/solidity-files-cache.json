@@ -38,8 +38,8 @@
       ]
     },
     "/Users/omniwired/Sites/circon-portfolio/project-a/contracts/VoteVerifier.sol": {
-      "lastModificationDate": 1752729226155,
-      "contentHash": "83533f97f431347fa3ee9e33b00f537b",
+      "lastModificationDate": 1752732261963,
+      "contentHash": "6425b3ddfdacbf5556116c6d0a348660",
       "sourceName": "contracts/VoteVerifier.sol",
       "solcConfig": {
         "version": "0.8.19",

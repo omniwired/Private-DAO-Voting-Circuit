@@ -222,33 +222,6 @@ The voting circuit has undergone comprehensive security analysis and hardening. 
 
 ### **Security Status: 🛡️ HARDENED**
 
-## Vulnerability Prevention
-
-The circuit implements **defense-in-depth** security measures to prevent common zk-SNARK vulnerabilities:
-
-### **Under-Constrained Circuit Prevention**
-- ✅ All signals have corresponding constraints
-- ✅ No unused or manipulable witness values
-- ✅ Complete constraint coverage analysis
-
-### **Input Manipulation Prevention**
-- ✅ Binary validation for all path indices (`Num2Bits`)
-- ✅ Non-zero validation for cryptographic secrets (`IsZero`)
-- ✅ Range validation for vote values (polynomial constraint)
-- ✅ Non-zero proposal ID validation
-
-### **Cryptographic Security**
-- ✅ Prevents weak commitment schemes (zero nullifier/secret)
-- ✅ Ensures unpredictable nullifier generation
-- ✅ Validates Merkle proof integrity with binary constraints
-- ✅ Prevents identity exposure through weak parameters
-
-### **Circuit Integrity**
-- ✅ Efficient constraint optimization (polynomial vs component-based)
-- ✅ Proper signal flow validation
-- ✅ No unconstrained intermediate values
-- ✅ Comprehensive input domain validation
-
 ## Security Considerations
 
 1. **Trusted Setup**: The Powers of Tau ceremony should be performed with multiple contributors in production
