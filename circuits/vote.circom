@@ -71,11 +71,8 @@ template Vote(levels) {
     signal input pathElements[levels];
     signal input pathIndices[levels];
 
-    // Verify vote value is valid (0, 1, or 2)
-    component validVote = LessEqThan(2);
-    validVote.in[0] <== voteValue;
-    validVote.in[1] <== 2;
-    validVote.out === 1;
+    // Verify vote value is valid (0, 1, or 2) using polynomial constraint
+    voteValue * (voteValue - 1) * (voteValue - 2) === 0;
 
     // Ensure nullifier and secret are non-zero to prevent weak commitments
     component nullifierCheck = IsZero();
