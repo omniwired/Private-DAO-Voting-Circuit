@@ -94,9 +94,6 @@ template Vote(levels) {
         tree.pathIndices[i] <== pathIndices[i];
     }
 
-    // Add constraints to prevent signal manipulation
-    signal voteSquare;
-    voteSquare <== voteValue * voteValue;
 }
 
 component main {public [root, nullifierHash, proposalId, voteValue]} = Vote(20);
