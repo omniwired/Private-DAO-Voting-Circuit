@@ -13,11 +13,16 @@ template MerkleTreeChecker(levels) {
 
     component hashers[levels];
     component selectors[levels];
+    component binaryCheckers[levels];
     
     signal currentLevel[levels + 1];
     currentLevel[0] <== leaf;
 
     for (var i = 0; i < levels; i++) {
+        // Constrain pathIndices to be binary (0 or 1)
+        binaryCheckers[i] = Num2Bits(1);
+        binaryCheckers[i].in <== pathIndices[i];
+        
         selectors[i] = MultiMux1(2);
         selectors[i].c[0][0] <== currentLevel[i];
         selectors[i].c[0][1] <== pathElements[i];
