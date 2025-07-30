@@ -74,8 +74,12 @@ template Vote(levels) {
     signal input pathElements[levels];
     signal input pathIndices[levels];
 
-    // hacky way to check vote is 0,1,2 but it works
-    voteValue * (voteValue - 1) * (voteValue - 2) === 0;
+    // check vote is 0,1,2 - had to break this up cuz circom complains
+    signal temp1;
+    signal temp2;
+    temp1 <== voteValue * (voteValue - 1);
+    temp2 <== temp1 * (voteValue - 2);
+    temp2 === 0;
 
     // make sure nullifier isn't 0 (weak commitment)
     component nullifierCheck = IsZero();

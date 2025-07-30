@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/omniwired/Sites/circon-portfolio/project-a/contracts/DAOVoting.sol": {
-      "lastModificationDate": 1752653909546,
-      "contentHash": "79ea28c497b9b086aa595fd2fca37ea9",
+      "lastModificationDate": 1753884767060,
+      "contentHash": "9e0b5e1e1bca9bf8d6b36deaecc7a09a",
       "sourceName": "contracts/DAOVoting.sol",
       "solcConfig": {
         "version": "0.8.19",
@@ -38,8 +38,8 @@
       ]
     },
     "/Users/omniwired/Sites/circon-portfolio/project-a/contracts/VoteVerifier.sol": {
-      "lastModificationDate": 1752732261963,
-      "contentHash": "6425b3ddfdacbf5556116c6d0a348660",
+      "lastModificationDate": 1753885213370,
+      "contentHash": "dc88a1b16f64a63a3246467d9759dfbd",
       "sourceName": "contracts/VoteVerifier.sol",
       "solcConfig": {
         "version": "0.8.19",
@@ -66,10 +66,10 @@
       },
       "imports": [],
       "versionPragmas": [
-        "^0.8.19"
+        ">=0.7.0 <0.9.0"
       ],
       "artifacts": [
-        "VoteVerifier"
+        "Groth16Verifier"
       ]
     }
   }

@@ -16,7 +16,7 @@ describe("DAO Voting Contract Demo", function () {
     
     describe("Contract Deployment", function() {
         it("Should deploy VoteVerifier contract", async function() {
-            const VoteVerifier = await ethers.getContractFactory("VoteVerifier");
+            const VoteVerifier = await ethers.getContractFactory("Groth16Verifier");
             verifier = await VoteVerifier.deploy();
             await verifier.waitForDeployment();
             
@@ -24,9 +24,9 @@ describe("DAO Voting Contract Demo", function () {
             expect(address).to.not.be.null;
             expect(address).to.match(/^0x[a-fA-F0-9]{40}$/);
             
-            // Check mock verifier version
-            const version = await verifier.version();
-            expect(version).to.equal("MockVerifier-1.0");
+            // TODO: check version when we add it to the verifier
+            // const version = await verifier.version();
+            // expect(version).to.equal("MockVerifier-1.0");
         });
         
         it("Should deploy DAOVoting contract", async function() {
@@ -90,7 +90,7 @@ describe("DAO Voting Contract Demo", function () {
             const nullifierHash = "12345678901234567890123456789012345678901234567890123456789012345";
             const voteValue = 1; // YES
             
-            // Mock proof that will be accepted by our mock verifier
+            // mock proof - real one would come from snarkjs but this is just for testing
             const mockProof = {
                 a: [1, 2],
                 b: [[3, 4], [5, 6]],

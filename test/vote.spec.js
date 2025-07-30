@@ -94,7 +94,7 @@ describe("DAO Voting System", function () {
         poseidon = poseidonJs;
         F = poseidonJs.F;
         
-        // gen some test members
+        // gen some test members - 10 is prob enough
         for (let i = 0; i < 10; i++) {
             const nullifier = F.random();
             const secret = F.random();
@@ -122,7 +122,7 @@ describe("DAO Voting System", function () {
         merkleRoot = tree.getRoot();
         
         // Deploy contracts
-        const Verifier = await ethers.getContractFactory("VoteVerifier");
+        const Verifier = await ethers.getContractFactory("Groth16Verifier");
         verifier = await Verifier.deploy();
         await verifier.waitForDeployment();
         
