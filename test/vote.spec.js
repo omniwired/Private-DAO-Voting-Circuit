@@ -17,7 +17,7 @@ describe("DAO Voting System", function () {
     let tree;
     let merkleRoot;
     
-    // Helper function to generate Poseidon hash
+    // quick poseidon wrapper
     async function poseidonHash(inputs) {
         return F.toObject(poseidon(inputs.map(x => F.e(x))));
     }
@@ -89,12 +89,12 @@ describe("DAO Voting System", function () {
     before(async function() {
         this.timeout(60000);
         
-        // Initialize Poseidon
+        // init poseidon
         const poseidonJs = await circomlibjs.buildPoseidon();
         poseidon = poseidonJs;
         F = poseidonJs.F;
         
-        // Generate member commitments
+        // gen some test members
         for (let i = 0; i < 10; i++) {
             const nullifier = F.random();
             const secret = F.random();

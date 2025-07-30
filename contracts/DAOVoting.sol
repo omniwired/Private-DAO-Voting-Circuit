@@ -70,7 +70,7 @@ contract DAOVoting {
         if (block.timestamp > proposal.deadline) revert VotingEnded();
         if (proposal.nullifiers[nullifierHash]) revert NullifierAlreadyUsed();
         
-        // Verify the ZK proof
+        // verify zk proof
         uint[4] memory input = [
             merkleRoot,
             nullifierHash,
@@ -80,16 +80,17 @@ contract DAOVoting {
         
         if (!verifier.verifyProof(a, b, c, input)) revert InvalidProof();
         
-        // Record the nullifier to prevent double voting
+        // mark nullifier as used
         proposal.nullifiers[nullifierHash] = true;
-        usedNullifiers[nullifierHash] = true;
+        usedNullifiers[nullifierHash] = true; // kinda redundant but w/e
         
-        // Update vote counts
+        // tally votes
         if (voteValue == 0) {
             proposal.noVotes++;
         } else if (voteValue == 1) {
             proposal.yesVotes++;
         } else {
+            // must be 2 (abstain)
             proposal.abstainVotes++;
         }
         
@@ -116,7 +117,7 @@ contract DAOVoting {
         proposal.executed = true;
         emit ProposalExecuted(proposalId);
         
-        // Actual execution logic would go here
-        // For demo purposes, we just mark it as executed
+        // TODO: actually do something here lol
+        // rn just marks as executed
     }
 }

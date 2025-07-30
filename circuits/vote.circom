@@ -20,10 +20,12 @@ template MerkleTreeChecker(levels) {
     currentLevel[0] <== leaf;
 
     for (var i = 0; i < levels; i++) {
-        // Constrain pathIndices to be binary (0 or 1)
+        // pathIndices needs to be 0 or 1
+        // TODO: could probably optimize this somehow
         binaryCheckers[i] = Num2Bits(1);
         binaryCheckers[i].in <== pathIndices[i];
         
+        // mux to handle left/right placement
         selectors[i] = MultiMux1(2);
         selectors[i].c[0][0] <== currentLevel[i];
         selectors[i].c[0][1] <== pathElements[i];
@@ -38,6 +40,7 @@ template MerkleTreeChecker(levels) {
         currentLevel[i + 1] <== hashers[i].out;
     }
 
+    // final check
     root === currentLevel[levels];
 }
 
@@ -71,22 +74,23 @@ template Vote(levels) {
     signal input pathElements[levels];
     signal input pathIndices[levels];
 
-    // Verify vote value is valid (0, 1, or 2) using polynomial constraint
+    // hacky way to check vote is 0,1,2 but it works
     voteValue * (voteValue - 1) * (voteValue - 2) === 0;
 
-    // Ensure nullifier and secret are non-zero to prevent weak commitments
+    // make sure nullifier isn't 0 (weak commitment)
     component nullifierCheck = IsZero();
     nullifierCheck.in <== nullifier;
-    nullifierCheck.out === 0; // Assert nullifier is NOT zero
+    nullifierCheck.out === 0;
     
+    // same for secret
     component secretCheck = IsZero();
     secretCheck.in <== secret;
-    secretCheck.out === 0; // Assert secret is NOT zero
+    secretCheck.out === 0;
 
-    // Ensure proposalId is non-zero to prevent invalid proposal references
+    // proposalId check - prob overkill but whatever
     component proposalIdCheck = IsZero();
     proposalIdCheck.in <== proposalId;
-    proposalIdCheck.out === 0; // Assert proposalId is NOT zero
+    proposalIdCheck.out === 0;
 
     // Compute commitment and nullifier hash
     component hasher = CommitmentHasher();
